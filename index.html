@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="Penguincy.PNG">
+    <title>أسامة فرحة | Full Stack Web Developer - معرض الأعمال المتطور</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.47/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav :class="{ scrolled: isScrolled }">
+            <div class="container nav-container">
+                <a href="#" class="logo" @click="scrollToSection('home')">
+                    <span v-if="!isEnglish">أسامة فرحة</span>
+                    <span v-else>Osama Farha</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#home" @click="scrollToSection('home')">
+                        <span v-if="!isEnglish">الرئيسية</span>
+                        <span v-else>Home</span>
+                    </a></li>
+                    <li><a href="#about" @click="scrollToSection('about')">
+                        <span v-if="!isEnglish">عنّي</span>
+                        <span v-else>About</span>
+                    </a></li>
+                    <li><a href="#skills" @click="scrollToSection('skills')">
+                        <span v-if="!isEnglish">المهارات</span>
+                        <span v-else>Skills</span>
+                    </a></li>
+                    <li><a href="#resources" @click="scrollToSection('resources')">
+                        <span v-if="!isEnglish">مراجع مجانية</span>
+                        <span v-else>Free Resources</span>
+                    </a></li>
+                    <li><a href="#projects" @click="scrollToSection('projects')">
+                        <span v-if="!isEnglish">المشاريع</span>
+                        <span v-else>Projects</span>
+                    </a></li>
+                    <li><a href="#contact" @click="scrollToSection('contact')">
+                        <span v-if="!isEnglish">تواصل معي</span>
+                        <span v-else>Contact</span>
+                    </a></li>
+                </ul>
+                
+                <!-- زر الترجمة -->
+                <button class="translate-btn" @click="toggleLanguage" :class="{ 'english-mode': isEnglish }">
+                    <i class="fas fa-globe"></i>
+                    <span v-if="!isEnglish">EN</span>
+                    <span v-else>AR</span>
+                </button>
+                
+                <button class="mobile-menu-btn" @click="toggleMobileMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" :class="{ active: mobileMenuOpen }">
+                <a href="#home" @click="scrollToSection('home')">
+                    <span v-if="!isEnglish">الرئيسية</span><span v-else>Home</span>
+                </a>
+                <a href="#about" @click="scrollToSection('about')">
+                    <span v-if="!isEnglish">عنّي</span><span v-else>About</span>
+                </a>
+                <a href="#skills" @click="scrollToSection('skills')">
+                    <span v-if="!isEnglish">المهارات</span><span v-else>Skills</span>
+                </a>
+                <a href="#resources" @click="scrollToSection('resources')">
+                    <span v-if="!isEnglish">مراجع مجانية</span><span v-else>Resources</span>
+                </a>
+                <a href="#projects" @click="scrollToSection('projects')">
+                    <span v-if="!isEnglish">المشاريع</span><span v-else>Projects</span>
+                </a>
+                <a href="#contact" @click="scrollToSection('contact')">
+                    <span v-if="!isEnglish">تواصل معي</span><span v-else>Contact</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="home" class="hero" style="background-image: url('images/hero-bg.jpg');">
+            <div class="hero-overlay"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1 class="fade-in-up" :class="{ 'visible': heroVisible }">
+                            <span v-if="!isEnglish">أسامة فرحة<br>Full Stack Web Developer  </span>
+                            <span v-else>Osama Farha<br> Full Stack Web Developer </span>
+                        </h1>
+                        
+                        <div class="hero-slides-container">
+                            <div class="hero-slide" v-show="currentSlide === 0" :class="{ 'slide-active': currentSlide === 0 }">
+                                <div class="slide-content">
+                                    <div class="slide-icon"><i class="fas fa-code"></i></div>
+                                    <p v-if="!isEnglish">أكثر من 4 سنوات من الخبرة في تطوير مواقع الويب وتصميم الواجهات الأمامية. أساعدك في إنشاء موقعك أو متجرك الإلكتروني من الصفر حتى النشر.</p>
+                                    <p v-else>Over 4 years of experience in web development and frontend design. I help you create your website or online store from scratch to deployment.</p>
+                                </div>
+                            </div>
+                            <div class="hero-slide" v-show="currentSlide === 1" :class="{ 'slide-active': currentSlide === 1 }">
+                                <div class="slide-content">
+                                    <div class="slide-icon"><i class="fas fa-clock"></i></div>
+                                    <p v-if="!isEnglish">أكثر من <strong>10,000+</strong> ساعة تطوير • <strong>50+</strong> مشروع ناجح • <strong>100%</strong> رضا عملاء • جاهز لبدء مشروعك القادم!</p>
+                                    <p v-else>Over <strong>10,000+</strong> development hours • <strong>50+</strong> successful projects • <strong>100%</strong> client satisfaction • Ready for your next project!</p>
+                                </div>
+                            </div>
+                            <div class="hero-slide" v-show="currentSlide === 2" :class="{ 'slide-active': currentSlide === 2 }">
+                                <div class="slide-content">
+                                    <div class="slide-icon"><i class="fas fa-rocket"></i></div>
+                                    <p v-if="!isEnglish">متخصص في <strong>Vue.js</strong> • <strong>React</strong> • <strong>التصميم المتجاوب</strong> • <strong>تحسين الأداء</strong> • <strong>SEO</strong> • أحدث التقنيات وأفضل الممارسات</p>
+                                    <p v-else>Specialized in <strong>Vue.js</strong> • <strong>React</strong> • <strong>Responsive Design</strong> • <strong>Performance</strong> • <strong>SEO</strong> • Latest technologies and best practices</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="slide-indicators">
+                            <button v-for="n in 3" :key="n" :class="{ active: currentSlide === n-1 }" @click="goToSlide(n-1)" class="indicator">
+                                <span class="progress-bar" v-if="currentSlide === n-1"></span>
+                            </button>
+                        </div>
+                        
+                        <a href="#projects" class="cta-button fade-in-up" :class="{ 'visible': heroVisible }" @click="scrollToSection('projects')">
+                            <span v-if="!isEnglish">شاهد مشاريعي</span>
+                            <span v-else>View My Projects</span>
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="hero-visual">
+                        <div class="floating-card card-1" :class="{ 'visible': heroVisible }"><i class="fab fa-vuejs"></i></div>
+                        <div class="floating-card card-2" :class="{ 'visible': heroVisible }"><i class="fab fa-js"></i></div>
+                        <div class="floating-card card-3" :class="{ 'visible': heroVisible }"><i class="fab fa-html5"></i></div>
+                        
+                        <div class="featured-mini-card" :class="{ 'visible': heroVisible }" @click="scrollToProject(1)">
+                            <div class="mini-card-inner">
+                                <i class="fas fa-star"></i>
+                                <span v-if="!isEnglish">المعرض الجديد</span>
+                                <span v-else>New Portfolio</span>
+                                <small v-if="!isEnglish">نسخة متطورة ✨</small>
+                                <small v-else>Premium ✨</small>
+                            </div>
+                        </div>
+                        
+                        <div class="animated-stats">
+                            <div class="stat-bubble" :class="{ 'visible': heroVisible, 'pulse': currentSlide === 0 }">
+                                <span class="stat-number">4+</span>
+                                <span class="stat-label" v-if="!isEnglish">سنوات</span>
+                                <span class="stat-label" v-else>Years</span>
+                            </div>
+                            <div class="stat-bubble" :class="{ 'visible': heroVisible, 'pulse': currentSlide === 1 }">
+                                <span class="stat-number">10k+</span>
+                                <span class="stat-label" v-if="!isEnglish">ساعة</span>
+                                <span class="stat-label" v-else>Hours</span>
+                            </div>
+                            <div class="stat-bubble" :class="{ 'visible': heroVisible, 'pulse': currentSlide === 2 }">
+                                <span class="stat-number">50+</span>
+                                <span class="stat-label" v-if="!isEnglish">مشروع</span>
+                                <span class="stat-label" v-else>Projects</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title fade-in-up" :class="{ 'visible': aboutTitleVisible }">
+                    <span v-if="!isEnglish">عنّي</span>
+                    <span v-else>About Me</span>
+                </h2>
+                <div class="about-content">
+                    <div class="about-text fade-in-left" :class="{ 'visible': aboutTextVisible }">
+                        <h3 v-if="!isEnglish">مرحباً، أنا أسامة فرحة</h3>
+                        <h3 v-else>Hi, I'm Osama Farha</h3>
+                        <p v-if="!isEnglish">مطور واجهات أمامية محترف بخبرة تزيد عن 4 سنوات في مجال تطوير الويب. أتخصص في تحويل الأفكار إلى تجارب رقمية استثنائية باستخدام أحدث التقنيات.</p>
+                        <p v-else>Professional frontend developer with over 4 years of experience in web development. I specialize in turning ideas into exceptional digital experiences using the latest technologies.</p>
+                        <p v-if="!isEnglish">أستخدم أكثر التقنيات أماناً وقابلية للصيانة البرمجية.</p>
+                        <p v-else>I use the most secure and maintainable programming technologies.</p>
+                        
+                        <div class="stats">
+                            <div class="stat-item fade-in-up" v-for="stat in stats" :key="stat.id" :class="{ 'visible': stat.visible }" @mouseenter="hoverStat(stat.id)">
+                                <span class="stat-number">{{ stat.number }}</span>
+                                <span class="stat-label">{{ isEnglish ? stat.labelEn : stat.label }}</span>
+                                <div class="stat-hover-effect"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-visual fade-in-right" :class="{ 'visible': aboutVisualVisible }">
+                        <div class="visual-container">
+                            <div class="rotating-cube" :class="{ 'visible': aboutVisualVisible }">
+                                <div class="cube-face front"><i class="fab fa-vuejs"></i></div>
+                                <div class="cube-face back"><i class="fab fa-js"></i></div>
+                                <div class="cube-face right"><i class="fab fa-html5"></i></div>
+                                <div class="cube-face left"><i class="fab fa-css3"></i></div>
+                                <div class="cube-face top"><i class="fab fa-react"></i></div>
+                                <div class="cube-face bottom"><i class="fab fa-git"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills">
+            <div class="container">
+                <h2 class="section-title fade-in-up" :class="{ 'visible': skillsTitleVisible }">
+                    <span v-if="!isEnglish">المهارات التقنية</span>
+                    <span v-else>Technical Skills</span>
+                </h2>
+                <div class="skills-container">
+                    <div class="skill-category fade-in-up" v-for="(category, index) in skills" :key="category.name" :class="{ 'visible': category.visible }" @mouseenter="rotateCard(index)">
+                        <h3><i :class="category.icon"></i> {{ isEnglish ? category.nameEn : category.name }}</h3>
+                        <div class="skill-items">
+                            <span class="skill-tag" v-for="skill in category.items" :key="skill">{{ skill }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources Section (New) -->
+        <section id="resources">
+            <div class="container">
+                <h2 class="section-title fade-in-up" :class="{ 'visible': resourcesTitleVisible }">
+                    <span v-if="!isEnglish">مراجع مجانية لطلاب علوم الحاسوب</span>
+                    <span v-else>Free Resources for CS Students</span>
+                </h2>
+                <div class="resources-container">
+                    <div class="resource-category fade-in-up" v-for="resource in resources" :key="resource.name" :class="{ 'visible': resource.visible }">
+                        <h3><i :class="resource.icon"></i> {{ isEnglish ? resource.nameEn : resource.name }}</h3>
+                        <div class="resource-items">
+                            <a v-for="item in resource.items" :key="item.name" :href="item.link" target="_blank" class="resource-link" @mouseenter="pulseTag($event)">
+                                <i :class="item.icon"></i>
+                                <span>{{ isEnglish ? item.nameEn : item.name }}</span>
+                                <small class="link-hint">↗</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <div class="container">
+                <h2 class="section-title fade-in-up" :class="{ 'visible': projectsTitleVisible }">
+                    <span v-if="!isEnglish">أبرز المشاريع</span>
+                    <span v-else>Featured Projects</span>
+                </h2>
+                <div class="projects-grid">
+                    <div class="project-card fade-in-up" v-for="(project, index) in projects" :key="project.id" :class="{ 'visible': project.visible, 'featured-card': project.featured }" @mouseenter="tiltCard($event, index)" @mouseleave="resetTilt($event)">
+                        <a :href="project.githubUrl" target="_blank" class="project-link">
+                            <div class="project-image">
+                                <img v-if="project.imageSrc" :src="project.imageSrc" :alt="project.title" class="project-img">
+                                <div v-else class="project-img-placeholder" :style="{ background: project.gradient }">
+                                    <i :class="project.icon"></i>
+                                </div>
+                                <div class="github-overlay">
+                                    <i class="fab fa-github"></i>
+                                    <span v-if="!isEnglish">عرض المشروع</span>
+                                    <span v-else>View Project</span>
+                                </div>
+                            </div>
+                            <div class="project-content">
+                                <h3 class="project-title">
+                                    {{ isEnglish ? project.titleEn : project.title }}
+                                    <span v-if="project.featured" class="featured-badge">
+                                        <span v-if="!isEnglish">مطور ✨</span>
+                                        <span v-else>Premium ✨</span>
+                                    </span>
+                                </h3>
+                                <p class="project-description">{{ isEnglish ? project.descriptionEn : project.description }}</p>
+                                <div class="project-tech">
+                                    <span class="tech-tag" v-for="tech in project.tech" :key="tech">{{ tech }}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <div class="contact-background-3d"></div>
+            <div class="container">
+                <h2 class="section-title fade-in-up" :class="{ 'visible': contactTitleVisible }">
+                    <span v-if="!isEnglish">تواصل معي</span>
+                    <span v-else>Contact Me</span>
+                </h2>
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <a v-for="contact in contacts" :key="contact.platform" :href="contact.url" target="_blank" class="contact-method-link" :class="{ 'visible': contact.visible }" @mouseenter="glowContact($event)">
+                            <div class="contact-method">
+                                <div class="contact-icon"><i :class="contact.icon"></i></div>
+                                <div>
+                                    <h3>{{ isEnglish ? contact.platformEn : contact.platform }}</h3>
+                                    <p>{{ contact.info }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="contact-form fade-in-right" :class="{ 'visible': formVisible }">
+                        <form @submit.prevent="submitForm">
+                            <div class="form-group">
+                                <input type="text" v-model="form.name" :placeholder="isEnglish ? 'Full Name' : 'الاسم الكامل'" required>
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" v-model="form.email" :placeholder="isEnglish ? 'Email Address' : 'البريد الإلكتروني'" required>
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="form-group">
+                                <textarea v-model="form.message" :placeholder="isEnglish ? 'Your Message' : 'الرسالة'" rows="5" required></textarea>
+                                <i class="fas fa-comment"></i>
+                            </div>
+                            <button type="submit" class="cta-button" :disabled="form.submitting">
+                                <span v-if="!form.submitting">
+                                    <span v-if="!isEnglish">إرسال الرسالة</span>
+                                    <span v-else>Send Message</span>
+                                </span>
+                                <span v-else>
+                                    <span v-if="!isEnglish">جاري الإرسال...</span>
+                                    <span v-else>Sending...</span>
+                                </span>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-about fade-in-up" :class="{ 'visible': footerVisible }">
+                        <h3><span v-if="!isEnglish">أسامة فرحة</span><span v-else>Osama Farha</span></h3>
+                        <p v-if="!isEnglish">مطور واجهات أمامية محترف متخصص في إنشاء تجارب ويب استثنائية باستخدام أحدث التقنيات وأفضل الممارسات.</p>
+                        <p v-else>Professional frontend developer specialized in creating exceptional web experiences using the latest technologies and best practices.</p>
+                    </div>
+                    <div class="footer-links fade-in-up" :class="{ 'visible': footerVisible }">
+                        <h4 v-if="!isEnglish">روابط سريعة</h4>
+                        <h4 v-else>Quick Links</h4>
+                        <ul>
+                            <li v-for="link in footerLinks" :key="link.name">
+                                <a :href="link.href" @click="scrollToSection(link.section)">
+                                    {{ isEnglish ? link.nameEn : link.name }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-services fade-in-up" :class="{ 'visible': footerVisible }">
+                        <h4 v-if="!isEnglish">الخدمات</h4>
+                        <h4 v-else>Services</h4>
+                        <ul>
+                            <li v-for="service in services" :key="service">
+                                {{ isEnglish ? service.en : service.ar }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 <span v-if="!isEnglish">أسامة فرحة - نسخة مطورة من المعرض</span><span v-else>Osama Farha - Premium Portfolio</span></p>
+                </div>
+            </div>
+        </footer>
+
+        <button class="scroll-to-top" :class="{ visible: showScrollTop }" @click="scrollToTop"><i class="fas fa-chevron-up"></i></button>
+        <div class="loading-screen" :class="{ 'hidden': !isLoading }">
+            <div class="loading-content">
+                <div class="loading-cube">
+                    <div class="cube-face front"><i class="fab fa-vuejs"></i></div>
+                    <div class="cube-face back"><i class="fab fa-js"></i></div>
+                    <div class="cube-face right"><i class="fab fa-html5"></i></div>
+                    <div class="cube-face left"><i class="fab fa-css3"></i></div>
+                </div>
+                <h3 v-if="!isEnglish">جاري التحميل...</h3>
+                <h3 v-else>Loading...</h3>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
